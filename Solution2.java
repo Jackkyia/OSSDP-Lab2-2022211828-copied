@@ -1,3 +1,5 @@
+package edu.hitwh;
+
 /**
  * @description:
  *
@@ -16,18 +18,20 @@
  * 1 <= s.length <= 104
  * s 由小写英文字母组成
  */
-class Solution2 {
+public class Solution2 {
     public String removeDuplicateLetters(String s) {
-        boolean[] vis = new boolean[25];
-        int[] num = new int[25];
+        boolean[] vis = new boolean[26]; //修改为26
+        int[] num = new int[26]; //修改为26
         for (int i = 0; i < s.length(); i++) {
-            num[s.charAt(i) - ' ']++;
+            num[s.charAt(i) - 'a']++; //‘a’计数
         }
 
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < s.length()+1; i++) {
+        for (int i = 0; i < s.length(); i++) { //修改为s.length()
             char ch = s.charAt(i);
-            if (!vis[ch - ' ']) {
+            num[ch - 'a']--; //每次访问字符时减少计数
+
+            if (!vis[ch - 'a']) { //'a' 检查是否已存在
                 while (sb.length() > 0 && sb.charAt(sb.length() - 1) > ch) {
                     if (num[sb.charAt(sb.length() - 1) - 'a'] > 0) {
                         vis[sb.charAt(sb.length() - 1) - 'a'] = false;
@@ -39,7 +43,7 @@ class Solution2 {
                 vis[ch - 'a'] = true;
                 sb.append(ch);
             }
-            num[ch - 'a'] += 1;
+            //num[ch - 'a'] += 1; //删除
         }
         return sb.toString();
     }
